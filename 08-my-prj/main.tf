@@ -1,8 +1,12 @@
+locals {
+  project_cluster_name = "${var.project}-${var.cluster_name}"
+}
+
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "~> 3.0"
 
-  name = var.cluster_name
+  name = local.project_cluster_name
   cidr = "10.0.0.0/16"
 
   azs             = ["${var.region}a", "${var.region}b", "${var.region}c"]
@@ -15,13 +19,15 @@ module "vpc" {
   enable_dns_hostnames   = true
 
   public_subnet_tags = {
-    "kubernetes.io/cluster/${var.cluster_name}" = "shared"
-    "kubernetes.io/role/elb"                    = 1
+    Type                                                  = "Public Subnets"
+    "kubernetes.io/cluster/${local.project_cluster_name}" = "shared"
+    "kubernetes.io/role/elb"                              = 1
   }
 
   private_subnet_tags = {
-    "kubernetes.io/cluster/${var.cluster_name}" = "shared"
-    "kubernetes.io/role/internal-elb"           = 1
+    Type                                                  = "Private Subnets"
+    "kubernetes.io/cluster/${local.project_cluster_name}" = "shared"
+    "kubernetes.io/role/internal-elb"                     = 1
   }
 
   tags = {
@@ -56,7 +62,7 @@ resource "aws_iam_role" "eks_master_role" {
 }
 
 resource "aws_eks_cluster" "eks_cluster" {
-  name     = "${var.project}-${var.cluster_name}"
+  name     = local.project_cluster_name
   role_arn = aws_iam_role.eks_master_role.arn
 
   vpc_config {

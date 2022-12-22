@@ -6,7 +6,7 @@ spec:
   type: LoadBalancer
   ports:
     - port: 80
-      targetPort: 9376
+      targetPort: 80
       nodePort: 31000
   selector:
     app: myapp

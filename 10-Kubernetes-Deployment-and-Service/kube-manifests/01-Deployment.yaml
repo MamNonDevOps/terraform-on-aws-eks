@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: Deployment 
+kind: Deployment
 metadata: #Dictionary
   name: myapp1-deployment
 spec: # Dictionary
@@ -7,7 +7,7 @@ spec: # Dictionary
   selector:
     matchLabels:
       app: myapp1
-  template:  
+  template:
     metadata: # Dictionary
       name: myapp1-pod
       labels: # Dictionary
@@ -16,6 +16,5 @@ spec: # Dictionary
       containers: # List
         - name: myapp1-container
           image: stacksimplify/kubenginx:1.0.0
-          ports: 
-            - containerPort: 80  
-    
+          ports:
+            - containerPort: 80
