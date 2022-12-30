@@ -8,7 +8,7 @@
 #   key_name      = var.ssh_key_name
 
 #   subnet_id              = module.vpc.public_subnets[0]
-#   vpc_security_group_ids = [module.bastion_sg.id]
+#   vpc_security_group_ids = [module.bastion_sg.security_group_id]
 
 #   tags = {
 #     Project = var.project
